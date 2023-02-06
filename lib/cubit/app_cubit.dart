@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:genderize/cubit/app_states.dart';
-import 'package:genderize/service/dio.dart';
+
+import '../data/service/dio.dart';
 
 class AppCubit extends Cubit<AppStates>{
   AppCubit():super(AppInitialState());
