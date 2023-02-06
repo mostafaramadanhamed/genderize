@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 class CustomTextFiled extends StatelessWidget {
   const CustomTextFiled({Key? key,
     this.onSubmit ,
-    required this.hint,
+    required this.hint, this.controller,
   }) : super(key: key) ;
 
   final String ?hint;
-
+final TextEditingController? controller;
   final Function(String) ? onSubmit;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: TextFormField(
+        controller: controller,
         validator: (val){
           if(val?.isEmpty??true){
             return 'Field is required';

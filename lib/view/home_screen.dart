@@ -14,14 +14,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<FormState> formKey =GlobalKey();
+  final TextEditingController controller=TextEditingController();
   // GenderModel  gender;
+  Map<String,dynamic>gender={};
   AutovalidateMode autovalidateMode=AutovalidateMode.disabled;
 bool isClick=false;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context)=>AppCubit(),
-      child: Scaffold(
+    return BlocConsumer<AppCubit,AppStates>(
+      listener: (context,state){
+      if(state is AppSuccessState)
+        this.gender=state.gender;
+    },
+      builder: (context,state){
+        return Scaffold(
           appBar: buildAppBar(),
           body: SingleChildScrollView(
             child: Form(
@@ -33,11 +39,12 @@ bool isClick=false;
                     width: MediaQuery.of(context).size.width,
                   ),
                   CustomTextFiled(hint: 'Search 🔎',
+                    controller: controller,
                     onSubmit: (va){
                       // add function
                       if(formKey.currentState!.validate()){
                         formKey.currentState!.save();
-                        AppCubit().getData(name: va);
+                        BlocProvider.of<AppCubit>(context).getData(name: va);
                         isClick= !isClick;
                         setState((){});
                       }
@@ -49,41 +56,57 @@ bool isClick=false;
                   SizedBox(
                     height: MediaQuery.of(context).size.height/10,
                   ),
-            BlocBuilder<AppCubit,AppStates> (
-              builder: (context,state){
-                return isClick?        Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  padding: const EdgeInsets.all( 24),
-                  height:MediaQuery.of(context).size.height/5 ,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: Colors.pink.shade200,
-                      borderRadius: BorderRadius.circular(16)
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text('Name:  gender.name'),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height/20,
-                      ),
-                      Row(
-                        children:const [
 
-                          Expanded(child: Text('Gender: gender.Gender')),
-                          Expanded(child:  Text('Probability')),
-                        ],
-                      ),
+                        //  print(gender['name']);
+                        isClick?  Container(
+                            alignment: Alignment.topLeft,
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.all( 24),
+                            height:MediaQuery.of(context).size.height/4 ,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                color: Colors.pink.shade200,
+                                borderRadius: BorderRadius.circular(16)
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Name: ${gender['name']}',style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600
+                                ),),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height/40,
+                                ),
+                                Text('Gender: ${gender['gender']}',style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600
+                                ),),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height/30,
+                                ),
+                                Text('Probability: ${gender['probability']}',style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),),
 
-                    ],
-                  ),
-                ):Container();
-              }
-            ),
+                              ],
+                            ),
+                          ):Container(),
+                  ElevatedButton(
+                      onPressed: (){
+                        controller.clear();
+                        isClick= !isClick;
+                        setState((){});
+                      },
+                      child: Icon(Icons.rotate_right))
+
                 ],
               ),
             ),),
-      ),
+        );
+      },
+
     );
   }
 
