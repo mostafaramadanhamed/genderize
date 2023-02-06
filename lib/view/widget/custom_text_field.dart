@@ -14,6 +14,14 @@ class CustomTextFiled extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: TextFormField(
+        validator: (val){
+          if(val?.isEmpty??true){
+            return 'Field is required';
+          }
+          else {
+            return null;
+          }
+        },
         keyboardType: TextInputType.text,
         onFieldSubmitted: onSubmit,
         cursorColor: Colors.black,
