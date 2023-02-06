@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // add function
                   if(formKey.currentState!.validate()){
                     formKey.currentState!.save();
+                    
                   }
                   else{
                     autovalidateMode=AutovalidateMode.always;
