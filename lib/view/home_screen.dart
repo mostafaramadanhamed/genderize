@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:genderize/cubit/app_cubit.dart';
 import 'package:genderize/cubit/app_states.dart';
-import 'package:genderize/data/model/data_model.dart';
 import 'package:genderize/view/widget/custom_text_field.dart';
+
+import '../constant/images.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Map<String,dynamic>gender={};
   AutovalidateMode autovalidateMode=AutovalidateMode.disabled;
 bool isClick=false;
-bool loading=false;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
@@ -57,7 +57,6 @@ bool loading=false;
     formKey.currentState!.save();
     BlocProvider.of<AppCubit>(context).getData(name: va);
     await Future.delayed(const Duration(seconds: 2));
-    loading= !loading;
     isClick= !isClick;
     setState((){});
     }
@@ -83,8 +82,9 @@ bool loading=false;
       body:  buildNoInternetWidget(context),
       );
     }
-    }
-        );
+    },
+      child:const Center(child: CircularProgressIndicator(color: Colors.blueGrey,),),
+    );
     }
     );
 
@@ -102,7 +102,7 @@ bool loading=false;
           SizedBox(
             height: MediaQuery.of(context).size.height/15,
           ),
-          Image.asset(MyImages.noInternetImg,
+          Image.asset(MyImages.noInternet,
             height:MediaQuery.of(context).size.height/2 ,
             width: MediaQuery.of(context).size.width,),
           Text(
