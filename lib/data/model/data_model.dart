@@ -1,12 +1,12 @@
-class Gender {
+class GenderModel {
 late  int count;
   late String gender;
  late String name;
  late double probability;
 
-  Gender({required this.count, required this.gender, required this.name, required this.probability});
+  GenderModel({required this.count, required this.gender, required this.name, required this.probability});
 
-  Gender.fromJson(Map<String, dynamic> json) {
+  GenderModel.fromJson(Map<String, dynamic> json) {
     count = json['count'];
     gender = json['gender'];
     name = json['name'];
