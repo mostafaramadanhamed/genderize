@@ -16,13 +16,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<FormState> formKey =GlobalKey();
   // GenderModel  gender;
   AutovalidateMode autovalidateMode=AutovalidateMode.disabled;
-
+bool isClick=false;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context)=>AppCubit(),
-      child: BlocBuilder<AppCubit,AppStates> (
-        builder: (context,state)=>Scaffold(
+      child: Scaffold(
           appBar: buildAppBar(),
           body: SingleChildScrollView(
             child: Form(
@@ -39,7 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       if(formKey.currentState!.validate()){
                         formKey.currentState!.save();
                         AppCubit().getData(name: va);
-
+                        isClick= !isClick;
+                        setState((){});
                       }
                       else{
                         autovalidateMode=AutovalidateMode.always;
@@ -49,38 +49,40 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height/10,
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    padding: const EdgeInsets.all( 24),
-                    height:MediaQuery.of(context).size.height/5 ,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: Colors.pink.shade200,
-                        borderRadius: BorderRadius.circular(16)
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text('Name:  gender.name'),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height/20,
-                        ),
-                        Row(
-                          children:const [
+            BlocBuilder<AppCubit,AppStates> (
+              builder: (context,state){
+                return isClick?        Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.all( 24),
+                  height:MediaQuery.of(context).size.height/5 ,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.pink.shade200,
+                      borderRadius: BorderRadius.circular(16)
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('Name:  gender.name'),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height/20,
+                      ),
+                      Row(
+                        children:const [
 
-                            Expanded(child: Text('Gender: gender.Gender')),
-                            Expanded(child:  Text('Probability')),
-                          ],
-                        ),
+                          Expanded(child: Text('Gender: gender.Gender')),
+                          Expanded(child:  Text('Probability')),
+                        ],
+                      ),
 
-                      ],
-                    ),
-                  )
+                    ],
+                  ),
+                ):Container();
+              }
+            ),
                 ],
               ),
-            ),
-          ),
-        ),
+            ),),
       ),
     );
   }

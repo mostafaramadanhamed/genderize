@@ -16,7 +16,7 @@ class AppCubit extends Cubit<AppStates>{
 
 
      await DioHelper().getData(name: name).then((value) {
-       emit(AppSuccessState());
+       emit(AppSuccessState(value));
        data=value;
        GenderModel.fromJson(data);
      }).catchError((error){
