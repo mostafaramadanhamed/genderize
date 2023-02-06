@@ -18,7 +18,14 @@ class DioHelper{
  getData({required String name})async{
    try{
 
-     Response response=await dio.get(name);
+     Response response=await dio.get(
+       MyStrings.getUrl,
+       queryParameters: {
+         'name':name,
+       }
+     );
+     debugPrint(response.data.toString());
+
      return response.data;
    }
    catch(ex){

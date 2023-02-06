@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:genderize/cubit/app_cubit.dart';
 import 'package:genderize/view/widget/custom_text_field.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<FormState> formKey =GlobalKey();
+
   AutovalidateMode autovalidateMode=AutovalidateMode.disabled;
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // add function
                   if(formKey.currentState!.validate()){
                     formKey.currentState!.save();
-                    
+                    AppCubit().getData(name: va);
                   }
                   else{
                     autovalidateMode=AutovalidateMode.always;
