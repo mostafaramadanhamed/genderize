@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:genderize/cubit/app_cubit.dart';
 import 'package:genderize/view/home_screen.dart';
 
+import 'cubit/bloc_observer.dart';
+
 void main() {
+  Bloc.observer=MyBlocObserver();
   runApp(const MyApp());
 }
 
